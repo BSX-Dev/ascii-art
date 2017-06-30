@@ -58,8 +58,8 @@ def mix_pixels(pixel, refPixel, refPercentage=0.0):
 # 'reverse' variable is set to be true, then use the inverse
 # conversion where darks become lights and vice versa. 
 def convert_image(pixels, reverse=False, refPixels=None, refPercentage=0.0):
-    charlist = ['#', 'A', '@', '%', 'S', '+', '<', '*', ':', ',', '.'] 
-    divisionValue = 25
+   charlist = ['#','@', '&', '$', '%', 'A', 'X', '+', '!', '<', '*', '^', '"', '=', '~', '-',':', '`', ',' , '.'] 
+    divisionValue = 12 
     if reverse:
         print "(Conversion will be done in reverse.)"
         charlist = list(reversed(charlist))
