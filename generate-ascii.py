@@ -12,22 +12,39 @@ def main():
     img = load_image(args.image_filename)
     frame = convert_image(img, args.reverse)
     frames = [frame]  # Can change this later to add animations.
+
     if args.fadein: 
-        frames = fadein(img, args.reverse)    
+        frames = fadein(img, args.reverse)
+    if args.fadeout:
+        frames = fadeout(img, args.reverse)
+    if args.morph:
+        img2 = load_image(args.morph[0])
+        frames = morph(img, img2, args.reverse)
+
     display_frames(frames)
 
-def fadein(img, reverse):
-    # FIXTHIS
-    print "Fading in..."
+def morph(img, refImg, reverse):
+    # Mix the all black reference image with the given image.
     frames = []
-    divisionValue = 250
-    for i in range(23):
-        print divisionValue
-        frame = convert_image(img, reverse, divisionValue) 
-        divisionValue -= 10
+    refPercentage = 1.0
+    while refPercentage >= 0.0:
+        frame = convert_image(img, reverse, refImg, refPercentage)
         frames.append(frame)
+        refPercentage -= 0.01
     return frames
-    
+
+def fadeout(img, reverse):
+    # Make a reference image that is all black, and the same
+    # size as the image.  Morph *into* it.
+    refImg = [0] * len(img)
+    return morph(refImg, img, reverse)
+
+def fadein(img, reverse):
+    # Make a reference image that is all black, and the same
+    # size as the image.  Morph *from* it.
+    refImg = [0] * len(img)
+    return morph(img, refImg, reverse)
+
 
 # Load an image from a file, process it, and return to caller.
 # Returns the pixels in the format of a single list of integers,
@@ -50,18 +67,16 @@ def load_image(filename):
 # the reference pixel and the given pixel, as specified by refPercentage.
 # The value of refPercentage will be a float from the interval [0.0, 1.0].
 def mix_pixels(pixel, refPixel, refPercentage=0.0):
-    # FIXTHIS
-    return 255
-
+    return int((pixel * (1 - refPercentage)) + (refPixel * refPercentage))
 
 # Convert image to ASCII, and return ASCII string to caller.  If the
 # 'reverse' variable is set to be true, then use the inverse
 # conversion where darks become lights and vice versa. 
 def convert_image(pixels, reverse=False, refPixels=None, refPercentage=0.0):
-    charlist = ['#','@', '&', '$', '%', 'A', 'X', '+', '!', '<', '*', '^', '"', '=', '~', '-',':', '`', ',' , '.'] 
-    divisionValue = 12 
+    charlist = ['.', ',', '`', ':', '-', '~', '=', '"', '^', '*', '<', '!', '+', 'X', 'A', '%', '$', '&', '@', '#']
+
+    divisionValue = 13 
     if reverse:
-        print "(Conversion will be done in reverse.)"
         charlist = list(reversed(charlist))
 
     pixelChars = []
