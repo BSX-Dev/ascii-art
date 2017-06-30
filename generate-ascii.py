@@ -21,7 +21,7 @@ def fadein(img, reverse):
     print "Fading in..."
     frames = []
     divisionValue = 250
-    for i in range(23):
+    for i in range(24):
         print divisionValue
         frame = convert_image(img, reverse, divisionValue) 
         divisionValue -= 10
@@ -46,9 +46,10 @@ def load_image(filename):
 # conversion where darks become lights and vice versa. 
 #
 # FIXTHIS
-def convert_image(img, reverse=False, divisionValue=25):
-    charlist = ['#', 'A', '@', '%', 'S', '+', '<', '*', ':', ',', '.'] 
-    if reverse:
+def convert_image(img, reverse=False, divisionValue=13):
+   #charlist = ['#', 'A', '@', '%', 'S', '+', '<', '*', ':', ',', '.'] 
+    charlist = ['#','@', '&', '$', '%', 'A', 'X', '+', '!', '<', '*', '^', '"', '=', '~', '-',':', '`', ',' , '.']
+    if reverse: 
         print "(Conversion will be done in reverse.)"
         charlist = list(reversed(charlist))
     pixelValues = list(img.getdata())  
