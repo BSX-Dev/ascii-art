@@ -47,7 +47,6 @@ def load_image(filename):
 #
 # FIXTHIS
 def convert_image(img, reverse=False, divisionValue=13):
-   #charlist = ['#', 'A', '@', '%', 'S', '+', '<', '*', ':', ',', '.'] 
     charlist = ['#','@', '&', '$', '%', 'A', 'X', '+', '!', '<', '*', '^', '"', '=', '~', '-',':', '`', ',' , '.']
     if reverse: 
         print "(Conversion will be done in reverse.)"
